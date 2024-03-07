@@ -1,4 +1,34 @@
 {% extends "base.html" %} {% block content %}
 <h1>Haiku Generator</h1>
-<button id="generate-haiku" class="btn btn-primary">Generate Haiku</button>
+<form method="post" action="{% url 'generate_haiku' %}">
+  {% csrf_token %}
+
+  <button type="submit" id="generate-haiku" class="btn btn-primary">
+    Generate Haiku
+  </button>
+</form>
+<h2>Features to implement</h2>
+<ul>
+  <li>edit haiku in place</li>
+  <li>edit prompt</li>
+  <li>regenerate image</li>
+  <li>compare image to on before</li>
+  <li>automate generation</li>
+  <li>automate posting to instagram</li>
+  <li>show haiku text as overlay when hovered</li>
+  <li>link haikus back to home, see previous and next</li>
+  <li>drag image file into instagram</li>
+</ul>
+
+<h1>Haikus</h1>
+<div class="item-container">
+  {% for haiku in haikus %}
+  <a href="{% url 'view_haiku' haiku.id %}">
+    <div class="item">
+      <img src="{{ haiku.image.url }}" alt="{{ haiku.alt_text }}" />
+      <p>{{ haiku.text|linebreaks }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</div>
 {% endblock %}

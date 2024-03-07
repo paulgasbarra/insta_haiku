@@ -1,20 +1,19 @@
-from django.shortcuts import render
+from haiku_generator.models import Haiku
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 # haiku_generator/views.py
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Haiku
 from .forms import HaikuForm  # You'll create this form to handle haiku editing
+from .utils import generate_haiku_and_image
 
-@login_required
 def generate_haiku(request):
-    # Your logic to generate a haiku and save it
-    haiku = Haiku.objects.create(text="Generated haiku", image="path/to/generated/image.jpg")
-    return redirect('edit_haiku', pk=haiku.pk)
+    haiku = generate_haiku_and_image()
+    return redirect('view_haiku', haiku_id=haiku.id)
 
-@login_required
 def edit_haiku(request, pk):
     haiku = Haiku.objects.get(pk=pk)
     if request.method == 'POST':
@@ -36,4 +35,16 @@ def publish_haiku(request, pk):
     return redirect('edit_haiku', pk=haiku.pk)
 
 def home(request):
-    return render(request, 'haiku_generator/home.html')
+    haikus = Haiku.objects.order_by('-created_at')
+    return render(request, 'haiku_generator/home.html', {'haikus': haikus})
+
+def haiku(request, haiku_id):
+    haiku = get_object_or_404(Haiku, pk=haiku_id)
+    if haiku is not None:
+        return render(request, 'haiku_generator/haiku.html', {'haiku': haiku})
+    else:
+        raise Http404("Haiku does not exist")
+    
+def haiku_list_view(request):
+    haikus = Haiku.objects.all()
+    return render(request, 'haiku_generator/home.html', {'haikus': haikus})

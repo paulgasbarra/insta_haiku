@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Haiku
 
-# Register your models here.
+class HaikuAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+
+admin.site.register(Haiku, HaikuAdmin)

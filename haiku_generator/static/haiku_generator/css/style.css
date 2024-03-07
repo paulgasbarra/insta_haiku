@@ -1,0 +1,28 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.haikuImg {
+  width: 512px;
+  height: auto;
+}
+
+.altText {
+  font-size: 12px;
+  width: 512px;
+}
+
+.item-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item {
+  margin: 10px;
+  overflow: hidden;
+}
+
+.item > img {
+  width: 300px;
+}

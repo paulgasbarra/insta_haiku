@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+<div class="haikuBody">
+  <div class="seedWords" id="seedWords">{{haiku.seed_words}}</div>
+  <button onclick="makeEditable('seedWords')">Edit</button>
+  <img
+    class="haikuImg"
+    src="{{haiku.image.url}}"
+    alt="{{haiku.text}}"
+    title="{{haiku.text}}"
+  />
+  <div class="haiku" id="haikuText">{{haiku.text | linebreaks}}</div>
+  <button onclick="makeEditable('haikuText')">Edit</button>
+  <div class="altText" id="altText">{{haiku.alt_text}}</div>
+  <button onclick="makeEditable('altText')">Edit</button>
+</div>
+<a href="{% url 'home' %}">Home</a>
+{% endblock %}

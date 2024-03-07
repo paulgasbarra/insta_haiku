@@ -17,8 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
+from haiku_generator import views
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('haiku/', include('haiku_generator.urls')), 
+    path('', views.home, name='generate_haiku'),
+    path('haiku/', include('haiku_generator.urls')),
+    path('update-haiku/<int:pk>/', views.edit_haiku, name="edit_haiku"),
+    path('haiku/<int:haiku_id>/', views.haiku, name="view_haiku"), 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
